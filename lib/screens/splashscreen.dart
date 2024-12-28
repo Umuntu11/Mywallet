@@ -1,76 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:my_pocket_wallet/screens/loginscreen.dart';
 
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
 
-class Splashscreen extends StatefulWidget {
-  Splashscreen({Key? key}) : super(key: key);
-
-  @override
-  _SplashscreenState createState() => _SplashscreenState();
-}
-
-class _SplashscreenState extends State<Splashscreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      backgroundColor: Colors.blue.shade500,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Flexible(child: _topImageSection()),
-          _middleScreenText(),
-          _spashButton(context),
-        ],
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    });
+
+    return const Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'My Pocket Wallet',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            CircularProgressIndicator(),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
-Widget _topImageSection() {
-  return Container(
-    child: Center(child: Image.asset("assets/images/splash.png")),
-  );
-}
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
-Widget _middleScreenText() {
-  return Container(
-    child: Column(
-      children: [
-        Text("User Sunday"),
-        SizedBox(
-          height: 16,
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Login'),
         ),
-        Text("Welcome to blur blur...."),
-      ],
-    ),
-  );
-}
-
-
-Widget _spashButton(context) {
-  return Container(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        FloatingActionButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(30),
-            ),
-            side: BorderSide(
-              width: 2.0,
-            ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const TextField(
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const TextField(
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle login logic
+                },
+                child: const Text('Login'),
+              ),
+            ],
           ),
-          onPressed: () {
-            Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginPage()),
-          );
-          },
-          child: Icon(Icons.arrow_forward),
         ),
-      ],
-    ),
-  );
-}
+      );
+    }
+  }

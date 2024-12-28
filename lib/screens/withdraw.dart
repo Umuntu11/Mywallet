@@ -1,84 +1,124 @@
+// SignUpPage widget with validation and password confirmation.
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
-class WithdrawScreen extends StatelessWidget {
-  const WithdrawScreen({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
+  @override
+  _SignUpPageState createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>(); // Key to identify the form state.
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Disposing controllers to avoid memory leaks.
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController amountController = TextEditingController();
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Withdraw Funds'),
-      ),
+      appBar: AppBar(title: const Text('Sign Up')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Amount Input Field
-            const Text(
-              'Enter Amount',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter amount to withdraw',
+        child: Form(
+          key: _formKey, // Associating the form with the key.
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Create Your Account',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: 16),
-
-            // Payment Method Dropdown
-            const Text(
-              'Choose Payment Method',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            DropdownButtonFormField<String>(
-              items: const [
-                DropdownMenuItem(value: 'Bank', child: Text('Bank Transfer')),
-                DropdownMenuItem(value: 'Mpesa', child: Text('Mpesa')),
-                DropdownMenuItem(value: 'PayPal', child: Text('PayPal')),
-                DropdownMenuItem(value: 'Stripe', child: Text('Stripe'))
-              ],
-              onChanged: (value) {
-                // Handle selection change
-                print('Selected Payment Method: $value');
-              },
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Select a method',
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a username'; // Validates non-empty input.
+                  }
+                  return null;
+                },
               ),
-            ),
-            const SizedBox(height: 24),
-
-            // Confirm Button
-            Center(
-              child: ElevatedButton(
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an email'; // Validates non-empty input.
+                  }
+                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                    return 'Please enter a valid email'; // Validates email format.
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a password'; // Validates non-empty input.
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters'; // Validates password length.
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: _confirmPasswordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Confirm Password',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please confirm your password'; // Validates non-empty input.
+                  }
+                  if (value != _passwordController.text) {
+                    return 'Passwords do not match'; // Checks if passwords match.
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
                 onPressed: () {
-                  // Handle the withdrawal process
-                  final String amount = amountController.text.trim();
-                  if (amount.isEmpty) {
+                  if (_formKey.currentState!.validate()) {
+                    // If the form is valid, navigate to the login screen.
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please enter an amount')),
+                      const SnackBar(content: Text('Account created successfully!')),
                     );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Processing withdrawal of \$$amount'),
-                      ),
-                    );
-                    // Add your withdrawal logic here
+                    Navigator.pop(context);
                   }
                 },
-                child: const Text('Confirm Withdrawal'),
+                child: const Text('Sign Up'),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,8 +1,13 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
+import 'package:my_pocket_wallet/screens/custom_button.dart';
 import 'package:my_pocket_wallet/screens/home_page.dart';
-// import 'package:my_pocket_wallet/screens/maindashboard.dart';
 import 'package:my_pocket_wallet/screens/signgin.dart';
 import 'package:my_pocket_wallet/screens/forgotpassword.dart';
+import 'sendmoney.dart'; // Importing the SendMoneyPage for navigation.
+import 'paybills.dart'; // Importing the PayBillsPage for navigation.
+// Importing the custom button
 
 // LoginPage widget for the login screen.
 class LoginPage extends StatelessWidget {
@@ -41,36 +46,71 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
+            CustomButton(
+              text: 'Login',
+                color: Colors.blue,
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+
+                      return SlideTransition(position: offsetAnimation, child: child);
+                    },
                   ),
                 );
               },
-              child: const Text('Login'),
             ),
             const SizedBox(height: 10),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignUpPage()),
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => const SignUpPage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+
+                      return SlideTransition(position: offsetAnimation, child: child);
+                    },
+                  ),
                 );
               },
-              child: const Text('Don’t have an account? Sign Up'),
+              child: const Text('Do not have an account? Sign Up'),
             ),
             TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-                          );
-                        },
-                          child: const Text('Forgot Password?'),
-              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) => const ForgotPasswordPage(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.ease;
+
+                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+
+                      return SlideTransition(position: offsetAnimation, child: child);
+                    },
+                  ),
+                );
+              },
+              child: const Text('Forgot Password?'),
+            ),
           ],
         ),
       ),

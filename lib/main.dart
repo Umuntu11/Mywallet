@@ -1,27 +1,64 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
-import 'package:my_pocket_wallet/screens/loginscreen.dart';
-import 'package:my_pocket_wallet/screens/splashscreen.dart'; // Importing the Material package.
+import 'screens/forgotpassword.dart';
+import 'screens/sendmoney.dart';
+import 'screens/pay_bills.dart';
+import 'screens/home_page.dart';
+import 'screens/account.dart';
+import 'screens/mobilerecharge.dart';
 
 void main() {
-  runApp(const MyPocketWallet());
+  runApp(const MyApp());
 }
 
-// Root widget for the app.
-class MyPocketWallet extends StatelessWidget {
-  const MyPocketWallet({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'My Pocket Wallet',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home:  Splashscreen(), // Initial screen.
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/forgotpassword': (context) => const ForgotPasswordPage(),
+        '/sendmoney': (context) => const SendMoneyPage(),
+        '/paybills': (context) => const PayBillsPage(),
+        '/account': (context) => const AccountPage(),
+        '/withdraw': (context) => const WithdrawPage(),
+        '/mobilerecharge': (context) => const MobileRechargePage(),
+        '/dashboard': (context) => const PlaceholderPage(), // Placeholder route
+      },
     );
   }
 }
 
+class WithdrawPage extends StatelessWidget {
+  const WithdrawPage({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Withdraw'),
+      ),
+      body: const Center(
+        child: Text('Withdraw Page'),
+      ),
+    );
+  }
+}
 
+class PlaceholderPage extends StatelessWidget {
+  const PlaceholderPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Dashboard'),
+      ),
+      body: const Center(
+        child: Text('Dashboard Page'),
+      ),
+    );
+  }
+}

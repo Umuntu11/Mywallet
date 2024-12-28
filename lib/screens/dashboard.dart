@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -42,7 +41,7 @@ class HomePage extends StatelessWidget {
                   _buildMenuItem(context, Icons.send, 'Send Money', '/sendmoney'),
                   _buildMenuItem(context, Icons.hd, 'Withdraw', '/withdraw'),
                   _buildMenuItem(context, Icons.phone_android, 'Mobile\nrecharge', '/mobilerecharge'),
-                  _buildMenuItem(context, Icons.dashboard, 'Dash board', '/dashboard'), // Corrected icon and added route
+                  _buildMenuItem(context, Icons.dashboard, 'Dash board', '/dashboard'), // Placeholder route
                 ],
               ),
             ),
